@@ -1,6 +1,21 @@
+from datetime import datetime
+
 from flask import Flask, jsonify, render_template, request
 
 app = Flask(__name__)
+
+profile_data = {
+    "name": "Chinmay Sahoo",
+    "headline": "Software developer focused on practical web apps, cleaner interfaces, and steady technical growth.",
+    "summary": (
+        "I build portfolio projects across Flask, Java, machine learning, and legal-tech workflows. "
+        "My goal is to ship projects that are readable, useful, and clearly connected to real problem solving."
+    ),
+    "location": "Odisha, India",
+    "email": "chinmaysahoo63715@gmail.com",
+    "github": "https://github.com/chinmay-476",
+    "linkedin": "https://www.linkedin.com/in/chinmay-sahoo-5ba863328",
+}
 
 projects_data = [
     {
@@ -127,32 +142,52 @@ projects_data = [
 ]
 
 skills_data = {
-    "languages": ["Python", "JavaScript", "C++", "Java", "HTML5", "CSS3", "SQL"],
-    "frameworks": ["Flask", "Spring Boot", "Bootstrap", "Jinja"],
-    "tools": ["Git", "GitHub", "VS Code", "SQLite", "MongoDB", "MySQL"],
-    "learning": ["React", "Node.js", "Docker", "Machine Learning", "AI Apps"],
+    "Languages": ["Python", "JavaScript", "C++", "Java", "HTML5", "CSS3", "SQL"],
+    "Frameworks": ["Flask", "Spring Boot", "Bootstrap", "Jinja"],
+    "Tools": ["Git", "GitHub", "VS Code", "SQLite", "MongoDB", "MySQL"],
+    "Currently Learning": ["React", "Node.js", "Docker", "Machine Learning", "AI Apps"],
 }
+
+
+@app.context_processor
+def inject_globals():
+    return {"current_year": datetime.now().year}
 
 
 @app.route("/")
 def home():
     featured_projects = [project for project in projects_data if project.get("featured")][:4]
-    return render_template("home.html", featured_projects=featured_projects)
+    stats = {
+        "projects": len(projects_data),
+        "active": sum(project["status"] == "in_progress" for project in projects_data),
+        "skills": sum(len(items) for items in skills_data.values()),
+    }
+    return render_template(
+        "home.html",
+        profile=profile_data,
+        featured_projects=featured_projects,
+        stats=stats,
+    )
 
 
 @app.route("/about")
 def about():
-    return render_template("about.html", skills=skills_data)
+    return render_template("about.html", profile=profile_data, skills=skills_data)
 
 
 @app.route("/projects")
 def projects():
-    return render_template("projects.html", projects=projects_data)
+    summary = {
+        "total": len(projects_data),
+        "featured": sum(project["featured"] for project in projects_data),
+        "active": sum(project["status"] == "in_progress" for project in projects_data),
+    }
+    return render_template("projects.html", projects=projects_data, summary=summary)
 
 
 @app.route("/contact")
 def contact():
-    return render_template("contact.html")
+    return render_template("contact.html", profile=profile_data)
 
 
 @app.route("/api/projects")
@@ -167,11 +202,17 @@ def api_skills():
 
 @app.route("/api/contact", methods=["POST"])
 def api_contact():
-    data = request.json
+    data = request.get_json(silent=True) or {}
+    required_fields = ["name", "email", "message"]
+    missing = [field for field in required_fields if not str(data.get(field, "")).strip()]
+
+    if missing:
+        return jsonify({"status": "error", "message": "Please fill in all required fields."}), 400
+
     return jsonify(
         {
             "status": "success",
-            "message": "Thanks for your message! I'll get back to you soon.",
+            "message": "Thanks for your message. I will get back to you soon.",
         }
     )
 

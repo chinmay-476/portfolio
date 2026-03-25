@@ -1,285 +1,134 @@
 {% extends "base.html" %}
-{% block title %}Home - Chinmay Sahoo{% endblock %}
+
+{% block title %}Home | Chinmay Sahoo{% endblock %}
 
 {% block content %}
-<!-- Hero Section -->
-<section class="hero" id="hero">
-    <div class="hero-background">
-        <div class="hero-particles"></div>
-        <div class="hero-gradient"></div>
-    </div>
-    
-    <div class="hero-content">
-        <div class="hero-text">
-            <div class="hero-greeting">
-                <span class="wave">👋</span>
-                <span class="greeting-text">Hello, I'm</span>
+<section class="section">
+    <div class="container hero-layout">
+        <div class="hero-copy" data-reveal>
+            <p class="eyebrow">Software Portfolio</p>
+            <h1 class="hero-title">{{ profile.name }}</h1>
+            <p class="hero-subtitle">{{ profile.headline }}</p>
+            <p class="hero-description">{{ profile.summary }}</p>
+
+            <div class="hero-meta">
+                <span class="meta-pill"><i class="fas fa-location-dot"></i>{{ profile.location }}</span>
+                <span class="meta-pill"><i class="fas fa-briefcase"></i>{{ stats.projects }} projects tracked</span>
+                <span class="meta-pill"><i class="fas fa-bolt"></i>{{ stats.active }} active builds</span>
             </div>
-            <h1 class="hero-title">
-                <span class="highlight-text">Chinmay</span>
-                <span class="title-cursor">|</span>
-            </h1>
-            <div class="hero-subtitle">
-                <span class="typing-text"></span>
-            </div>
-            <p class="hero-description">
-                I'm a passionate Computer Science student building my journey in software development. 
-                Currently diving deep into <strong>Flask</strong>, <strong>Python</strong>, and <strong>JavaScript</strong> 
-                while strengthening my problem-solving skills with <strong>Data Structures & Algorithms</strong>.
-            </p>
-            <div class="hero-cta">
-                <a href="/projects" class="cta-button primary">
-                    <i class="fas fa-code"></i>
-                    View My Work
+
+            <div class="hero-actions">
+                <a href="{{ url_for('projects') }}" class="button button-primary">
+                    <i class="fas fa-arrow-right"></i>
+                    View Projects
                 </a>
-                <a href="/contact" class="cta-button secondary">
+                <a href="{{ url_for('contact') }}" class="button button-secondary">
                     <i class="fas fa-envelope"></i>
-                    Get In Touch
+                    Contact Me
                 </a>
             </div>
         </div>
-        
-        <div class="hero-visual">
-            <div class="profile-container">
-                <div class="profile-image">
-                    <img src="{{ url_for('static', filename='images/profile.jpg') }}" alt="Chinmay Sahoo" />
-                    <div class="profile-ring"></div>
-                </div>
-                <div class="status-indicator">
-                    <span class="status-dot"></span>
-                    <span class="status-text">Available for opportunities</span>
+
+        <div class="hero-side" data-reveal>
+            <div class="portrait-card">
+                <div class="portrait-frame">
+                    <img src="{{ url_for('static', filename='images/profile.jpg') }}" alt="Chinmay Sahoo">
                 </div>
             </div>
-        </div>
-    </div>
-    
-    <div class="hero-scroll">
-        <div class="scroll-indicator">
-            <span>Scroll down</span>
-            <i class="fas fa-arrow-down"></i>
+
+            <div class="side-card">
+                <h2 class="side-card-title">Current Focus</h2>
+                <ul class="list-clean">
+                    <li>Flask and Java projects that show complete workflows</li>
+                    <li>Cleaner UI decisions with less distraction and better readability</li>
+                    <li>Applied problem solving across legal tech, analytics, AI, and e-commerce</li>
+                </ul>
+            </div>
         </div>
     </div>
 </section>
 
-<!-- Quick Stats -->
-<section class="stats-section">
+<section class="section">
     <div class="container">
+        <div class="section-header" data-reveal>
+            <p class="eyebrow">Overview</p>
+            <h2 class="section-title">Built to communicate work quickly and clearly</h2>
+            <p class="section-copy">The portfolio now emphasizes content hierarchy, cleaner spacing, and calmer color contrast so the projects stay easier to scan.</p>
+        </div>
+
         <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-icon">
-                    <i class="fas fa-code"></i>
-                </div>
-                <div class="stat-content">
-                    <h3 class="stat-number" data-count="10">0</h3>
-                    <p class="stat-label">Projects Built</p>
-                </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">
-                    <i class="fas fa-graduation-cap"></i>
-                </div>
-                <div class="stat-content">
-                    <h3 class="stat-number" data-count="3">0</h3>
-                    <p class="stat-label">Years of Study</p>
-                </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">
-                    <i class="fas fa-brain"></i>
-                </div>
-                <div class="stat-content">
-                    <h3 class="stat-number" data-count="150">0</h3>
-                    <p class="stat-label">DSA Problems Solved</p>
-                </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">
-                    <i class="fas fa-coffee"></i>
-                </div>
-                <div class="stat-content">
-                    <h3 class="stat-number" data-count="500">0</h3>
-                    <p class="stat-label">Cups of Coffee</p>
-                </div>
-            </div>
+            <article class="stat-card" data-reveal>
+                <p class="stat-label">Repositories</p>
+                <p class="stat-number">{{ stats.projects }}</p>
+            </article>
+            <article class="stat-card" data-reveal>
+                <p class="stat-label">Active Projects</p>
+                <p class="stat-number">{{ stats.active }}</p>
+            </article>
+            <article class="stat-card" data-reveal>
+                <p class="stat-label">Skills Listed</p>
+                <p class="stat-number">{{ stats.skills }}</p>
+            </article>
         </div>
     </div>
 </section>
 
-<!-- Featured Projects -->
-<section class="featured-projects">
+<section class="section">
     <div class="container">
-        <div class="section-header">
-            <h2 class="section-title">Featured Projects</h2>
-            <p class="section-subtitle">A showcase of my recent work and learning projects</p>
+        <div class="section-header" data-reveal>
+            <p class="eyebrow">Featured Work</p>
+            <h2 class="section-title">Projects selected from the full GitHub portfolio</h2>
+            <p class="section-copy">A few representative repos pulled from the same shared project data used by the projects page.</p>
         </div>
-        
+
         <div class="projects-grid">
-            <div class="project-card featured">
-                <div class="project-image">
-                    <img src="{{ url_for('static', filename='images/portfolio-project.jpg') }}" alt="Portfolio Website" />
-                    <div class="project-overlay">
-                        <div class="project-actions">
-                            <a href="#" class="project-link">
-                                <i class="fas fa-external-link-alt"></i>
-                            </a>
-                            <a href="https://github.com/chinmay-476" class="project-link" target="_blank">
-                                <i class="fab fa-github"></i>
-                            </a>
-                        </div>
-                    </div>
+            {% for project in featured_projects %}
+            <article class="project-card" data-reveal>
+                <div class="project-top">
+                    <span class="project-category">{{ project.category }}</span>
+                    <span class="status-pill status-{{ project.status }}">{{ project.status|replace('_', ' ')|title }}</span>
                 </div>
-                <div class="project-content">
-                    <h3 class="project-title">🌐 Portfolio Website</h3>
-                    <p class="project-description">
-                        A modern, responsive portfolio website built with Flask, featuring dark/light mode toggle, 
-                        smooth animations, and interactive elements.
-                    </p>
-                    <div class="project-tech">
-                        <span class="tech-tag">Flask</span>
-                        <span class="tech-tag">JavaScript</span>
-                        <span class="tech-tag">CSS3</span>
-                    </div>
+
+                <div>
+                    <h3 class="project-title">{{ project.title }}</h3>
+                    <p class="project-description">{{ project.description }}</p>
                 </div>
-            </div>
-            
-            <div class="project-card">
-                <div class="project-image">
-                    <img src="{{ url_for('static', filename='images/todo-app.jpg') }}" alt="Todo App" />
-                    <div class="project-overlay">
-                        <div class="project-actions">
-                            <a href="#" class="project-link">
-                                <i class="fas fa-external-link-alt"></i>
-                            </a>
-                            <a href="https://github.com/chinmay-476" class="project-link" target="_blank">
-                                <i class="fab fa-github"></i>
-                            </a>
-                        </div>
-                    </div>
+
+                <div class="tech-stack">
+                    {% for tech in project.tech_stack[:4] %}
+                    <span class="tech-pill">{{ tech }}</span>
+                    {% endfor %}
                 </div>
-                <div class="project-content">
-                    <h3 class="project-title">📝 Smart To-Do App</h3>
-                    <p class="project-description">
-                        A feature-rich task management application with categories, due dates, and progress tracking.
-                    </p>
-                    <div class="project-tech">
-                        <span class="tech-tag">Flask</span>
-                        <span class="tech-tag">SQLite</span>
-                        <span class="tech-tag">Bootstrap</span>
-                    </div>
+
+                <div class="project-actions">
+                    <a href="{{ project.github }}" class="button button-secondary" target="_blank" rel="noreferrer">
+                        <i class="fab fa-github"></i>
+                        Source Code
+                    </a>
+                    {% if project.demo %}
+                    <a href="{{ project.demo }}" class="button button-primary" {% if project.demo.startswith('http') %}target="_blank" rel="noreferrer"{% endif %}>
+                        <i class="fas fa-arrow-up-right-from-square"></i>
+                        {% if project.demo == '/' %}Open Portfolio{% else %}Live Demo{% endif %}
+                    </a>
+                    {% endif %}
                 </div>
-            </div>
-        </div>
-        
-        <div class="section-footer">
-            <a href="/projects" class="view-all-link">
-                View All Projects
-                <i class="fas fa-arrow-right"></i>
-            </a>
+            </article>
+            {% endfor %}
         </div>
     </div>
 </section>
 
-<!-- Call to Action -->
-<section class="cta-section">
+<section class="section">
     <div class="container">
-        <div class="cta-content">
-            <h2 class="cta-title">Let's Build Something Amazing Together</h2>
-            <p class="cta-description">
-                I'm always excited to collaborate on interesting projects and learn from experienced developers. 
-                Whether you have a project idea or just want to connect, I'd love to hear from you!
-            </p>
-            <div class="cta-buttons">
-                <a href="/contact" class="cta-button primary">
-                    <i class="fas fa-rocket"></i>
-                    Start a Conversation
-                </a>
-                <a href="/about" class="cta-button secondary">
-                    <i class="fas fa-user"></i>
-                    Learn More About Me
-                </a>
+        <div class="callout" data-reveal>
+            <p class="eyebrow">Next Step</p>
+            <h2 class="section-title">I am looking for opportunities to build stronger production habits through real work.</h2>
+            <p class="section-copy">If you want to discuss internships, collaborations, or project ideas, the contact page is the fastest path.</p>
+            <div class="hero-actions">
+                <a href="{{ url_for('about') }}" class="button button-secondary">About Me</a>
+                <a href="{{ url_for('contact') }}" class="button button-primary">Send a Message</a>
             </div>
         </div>
     </div>
 </section>
-{% endblock %}
-
-{% block scripts %}
-<script>
-    // Typing animation for hero subtitle
-    const typingText = document.querySelector('.typing-text');
-    const phrases = [
-        'Aspiring Software Engineer',
-        'Full-Stack Web Developer',
-        'Problem Solver',
-        'Continuous Learner',
-        'Code Enthusiast'
-    ];
-    
-    let phraseIndex = 0;
-    let charIndex = 0;
-    let isDeleting = false;
-    
-    function typeText() {
-        const currentPhrase = phrases[phraseIndex];
-        
-        if (isDeleting) {
-            typingText.textContent = currentPhrase.substring(0, charIndex - 1);
-            charIndex--;
-        } else {
-            typingText.textContent = currentPhrase.substring(0, charIndex + 1);
-            charIndex++;
-        }
-        
-        if (!isDeleting && charIndex === currentPhrase.length) {
-            setTimeout(() => isDeleting = true, 1500);
-        } else if (isDeleting && charIndex === 0) {
-            isDeleting = false;
-            phraseIndex = (phraseIndex + 1) % phrases.length;
-        }
-        
-        const typeSpeed = isDeleting ? 50 : 100;
-        setTimeout(typeText, typeSpeed);
-    }
-    
-    // Start typing animation
-    typeText();
-    
-    // Animate stats counters
-    function animateCounters() {
-        const counters = document.querySelectorAll('.stat-number');
-        const observerOptions = {
-            threshold: 0.5,
-            rootMargin: '0px 0px -50px 0px'
-        };
-        
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const counter = entry.target;
-                    const target = parseInt(counter.getAttribute('data-count'));
-                    const duration = 2000; // 2 seconds
-                    const increment = target / (duration / 16); // 60fps
-                    let current = 0;
-                    
-                    const timer = setInterval(() => {
-                        current += increment;
-                        counter.textContent = Math.round(current);
-                        
-                        if (current >= target) {
-                            counter.textContent = target;
-                            clearInterval(timer);
-                        }
-                    }, 16);
-                    
-                    observer.unobserve(counter);
-                }
-            });
-        }, observerOptions);
-        
-        counters.forEach(counter => observer.observe(counter));
-    }
-    
-    // Initialize counter animation
-    animateCounters();
-</script>
 {% endblock %}

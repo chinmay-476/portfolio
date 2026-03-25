@@ -1,256 +1,65 @@
 {% extends "base.html" %}
 
-{% block title %}Projects - Chinmay Sahoo{% endblock %}
+{% block title %}Projects | Chinmay Sahoo{% endblock %}
 
 {% block content %}
-<style>
-    .projects-page {
-        padding: 110px 0 80px;
-        min-height: 100vh;
-        background: linear-gradient(180deg, rgba(102, 126, 234, 0.08), rgba(118, 75, 162, 0.04));
-    }
+<section class="page-hero">
+    <div class="container">
+        <div class="page-intro" data-reveal>
+            <p class="eyebrow">Projects</p>
+            <h1 class="page-title">GitHub work presented with less noise and better hierarchy.</h1>
+            <p class="page-copy">Each card is rendered from shared Flask data, so the project list stays maintainable while remaining readable on both desktop and mobile screens.</p>
+        </div>
+    </div>
+</section>
 
-    .projects-shell {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 1.5rem;
-    }
-
-    .projects-header {
-        text-align: center;
-        margin-bottom: 3rem;
-    }
-
-    .projects-kicker {
-        display: inline-block;
-        margin-bottom: 0.75rem;
-        padding: 0.4rem 0.8rem;
-        border-radius: 999px;
-        background: rgba(59, 130, 246, 0.12);
-        color: var(--primary-color);
-        font-size: 0.9rem;
-        font-weight: 600;
-        letter-spacing: 0.04em;
-        text-transform: uppercase;
-    }
-
-    .projects-title {
-        margin: 0;
-        font-size: clamp(2.2rem, 4vw, 3.5rem);
-        color: var(--text-primary);
-    }
-
-    .projects-subtitle {
-        max-width: 760px;
-        margin: 1rem auto 0;
-        color: var(--text-secondary);
-        font-size: 1.05rem;
-        line-height: 1.8;
-    }
-
-    .projects-summary {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-        gap: 1rem;
-        margin-bottom: 2rem;
-    }
-
-    .summary-card {
-        padding: 1.25rem;
-        border-radius: 18px;
-        background: rgba(255, 255, 255, 0.88);
-        border: 1px solid var(--border-color);
-        box-shadow: var(--shadow-light);
-        text-align: center;
-    }
-
-    [data-theme="dark"] .summary-card,
-    [data-theme="dark"] .repo-card {
-        background: rgba(30, 41, 59, 0.92);
-    }
-
-    .summary-value {
-        display: block;
-        font-size: 2rem;
-        font-weight: 700;
-        color: var(--text-primary);
-    }
-
-    .summary-label {
-        color: var(--text-secondary);
-        font-size: 0.95rem;
-    }
-
-    .repo-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 1.25rem;
-    }
-
-    .repo-card {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-        padding: 1.5rem;
-        border-radius: 22px;
-        background: rgba(255, 255, 255, 0.94);
-        border: 1px solid var(--border-color);
-        box-shadow: var(--shadow-medium);
-        transition: transform 0.25s ease, box-shadow 0.25s ease;
-    }
-
-    .repo-card:hover {
-        transform: translateY(-6px);
-        box-shadow: var(--shadow-heavy);
-    }
-
-    .repo-top {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 0.75rem;
-        flex-wrap: wrap;
-    }
-
-    .repo-category,
-    .repo-status {
-        display: inline-flex;
-        align-items: center;
-        border-radius: 999px;
-        padding: 0.35rem 0.75rem;
-        font-size: 0.8rem;
-        font-weight: 600;
-    }
-
-    .repo-category {
-        background: rgba(99, 102, 241, 0.12);
-        color: #4338ca;
-    }
-
-    .repo-status-completed {
-        background: rgba(16, 185, 129, 0.14);
-        color: #047857;
-    }
-
-    .repo-status-in-progress {
-        background: rgba(245, 158, 11, 0.18);
-        color: #b45309;
-    }
-
-    .repo-title {
-        margin: 0;
-        font-size: 1.35rem;
-        color: var(--text-primary);
-    }
-
-    .repo-description {
-        margin: 0;
-        color: var(--text-secondary);
-        line-height: 1.75;
-    }
-
-    .repo-tech {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.55rem;
-    }
-
-    .repo-tech span {
-        padding: 0.35rem 0.7rem;
-        border-radius: 999px;
-        background: var(--surface-color);
-        color: var(--text-primary);
-        font-size: 0.85rem;
-        border: 1px solid var(--border-color);
-    }
-
-    .repo-links {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.75rem;
-        margin-top: auto;
-    }
-
-    .repo-link {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.7rem 1rem;
-        border-radius: 999px;
-        text-decoration: none;
-        font-weight: 600;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .repo-link-primary {
-        background: var(--gradient-primary);
-        color: white;
-    }
-
-    .repo-link-secondary {
-        border: 1px solid var(--border-color);
-        color: var(--text-primary);
-        background: transparent;
-    }
-
-    .repo-link:hover {
-        transform: translateY(-2px);
-    }
-</style>
-
-<section class="projects-page">
-    <div class="projects-shell">
-        <header class="projects-header">
-            <span class="projects-kicker">GitHub Projects</span>
-            <h1 class="projects-title">Projects pulled from your real repositories</h1>
-            <p class="projects-subtitle">
-                These cards are now backed by Flask data and the descriptions were written from the
-                README content or repo metadata you shared, so the portfolio reflects your actual work
-                instead of placeholders.
-            </p>
-        </header>
-
-        <section class="projects-summary">
-            <article class="summary-card">
-                <span class="summary-value">{{ projects|length }}</span>
-                <span class="summary-label">Repositories Added</span>
+<section class="section">
+    <div class="container">
+        <div class="stats-grid">
+            <article class="stat-card" data-reveal>
+                <p class="stat-label">Total Repositories</p>
+                <p class="stat-number">{{ summary.total }}</p>
             </article>
-            <article class="summary-card">
-                <span class="summary-value">{{ projects|selectattr('featured')|list|length }}</span>
-                <span class="summary-label">Featured Projects</span>
+            <article class="stat-card" data-reveal>
+                <p class="stat-label">Featured</p>
+                <p class="stat-number">{{ summary.featured }}</p>
             </article>
-            <article class="summary-card">
-                <span class="summary-value">{{ projects|selectattr('status', 'equalto', 'in_progress')|list|length }}</span>
-                <span class="summary-label">Active Builds</span>
+            <article class="stat-card" data-reveal>
+                <p class="stat-label">Active</p>
+                <p class="stat-number">{{ summary.active }}</p>
             </article>
-        </section>
+        </div>
+    </div>
+</section>
 
-        <section class="repo-grid">
+<section class="section">
+    <div class="container">
+        <div class="projects-grid">
             {% for project in projects %}
-            <article class="repo-card">
-                <div class="repo-top">
-                    <span class="repo-category">{{ project.category }}</span>
-                    <span class="repo-status repo-status-{{ project.status|replace('_', '-') }}">
-                        {{ project.status|replace('_', ' ')|title }}
-                    </span>
+            <article class="project-card" data-reveal>
+                <div class="project-top">
+                    <span class="project-category">{{ project.category }}</span>
+                    <span class="status-pill status-{{ project.status }}">{{ project.status|replace('_', ' ')|title }}</span>
                 </div>
 
-                <h2 class="repo-title">{{ project.title }}</h2>
-                <p class="repo-description">{{ project.description }}</p>
+                <div>
+                    <h2 class="project-title">{{ project.title }}</h2>
+                    <p class="project-description">{{ project.description }}</p>
+                </div>
 
-                <div class="repo-tech">
+                <div class="tech-stack">
                     {% for tech in project.tech_stack %}
-                    <span>{{ tech }}</span>
+                    <span class="tech-pill">{{ tech }}</span>
                     {% endfor %}
                 </div>
 
-                <div class="repo-links">
-                    <a href="{{ project.github }}" class="repo-link repo-link-primary" target="_blank" rel="noreferrer">
+                <div class="project-actions">
+                    <a href="{{ project.github }}" class="button button-secondary" target="_blank" rel="noreferrer">
                         <i class="fab fa-github"></i>
                         Source Code
                     </a>
                     {% if project.demo %}
-                    <a href="{{ project.demo }}" class="repo-link repo-link-secondary" {% if project.demo.startswith('http') %}target="_blank" rel="noreferrer"{% endif %}>
+                    <a href="{{ project.demo }}" class="button button-primary" {% if project.demo.startswith('http') %}target="_blank" rel="noreferrer"{% endif %}>
                         <i class="fas fa-arrow-up-right-from-square"></i>
                         {% if project.demo == '/' %}Open Portfolio{% else %}Live Demo{% endif %}
                     </a>
@@ -258,7 +67,7 @@
                 </div>
             </article>
             {% endfor %}
-        </section>
+        </div>
     </div>
 </section>
 {% endblock %}
