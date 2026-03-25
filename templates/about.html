@@ -1,0 +1,469 @@
+{% extends "base.html" %}
+
+{% block title %}About{% endblock %}
+
+{% block content %}
+<style>
+    .about-section {
+        max-width: 1000px;
+        margin: 0 auto;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        animation: fadeInUp 0.8s ease-out;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .section-title {
+        font-size: 2.5rem;
+        text-align: center;
+        margin-bottom: 2rem;
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        position: relative;
+    }
+
+    .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 3px;
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        border-radius: 2px;
+    }
+
+    .hero-intro {
+        text-align: center;
+        margin-bottom: 3rem;
+        padding: 2rem;
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        border-radius: 15px;
+        color: white;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero-intro::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+        animation: rotate 20s linear infinite;
+    }
+
+    @keyframes rotate {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+
+    .hero-intro h3 {
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    .hero-intro p {
+        font-size: 1.1rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    .highlight {
+        background: linear-gradient(45deg, #ff6b6b, #ffa500);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-weight: bold;
+        font-size: 1.1em;
+    }
+
+    .about-intro {
+        text-align: center;
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+        color: #555;
+    }
+
+    .tech-stack {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 1.5rem 0;
+        justify-content: center;
+    }
+
+    .tech {
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        color: white;
+        padding: 8px 16px;
+        border-radius: 25px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        transition: all 0.3s ease;
+        cursor: pointer;
+        display: inline-block;
+    }
+
+    .tech:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .cards-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+        gap: 2rem;
+        margin: 2rem 0;
+    }
+
+    .card {
+        background: white;
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        border: 1px solid rgba(102, 126, 234, 0.1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(45deg, #667eea, #764ba2);
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .card h3 {
+        font-size: 1.3rem;
+        margin-bottom: 1rem;
+        color: #333;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .card ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .card li {
+        padding: 0.5rem 0;
+        color: #666;
+        position: relative;
+        padding-left: 1.5rem;
+    }
+
+    .card li::before {
+        content: '▶';
+        position: absolute;
+        left: 0;
+        color: #667eea;
+        font-size: 0.8rem;
+    }
+
+    .card li strong {
+        color: #333;
+    }
+
+    .progress-section {
+        margin: 2rem 0;
+        padding: 2rem;
+        background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        border-radius: 15px;
+    }
+
+    .progress-section h3 {
+        text-align: center;
+        margin-bottom: 1.5rem;
+        color: #333;
+    }
+
+    .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+    }
+
+    .skill-item {
+        background: white;
+        padding: 1rem;
+        border-radius: 10px;
+        text-align: center;
+        transition: transform 0.3s ease;
+    }
+
+    .skill-item:hover {
+        transform: scale(1.05);
+    }
+
+    .skill-level {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .thanks-note {
+        text-align: center;
+        margin-top: 3rem;
+        padding: 2rem;
+        background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+        border-radius: 15px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .thanks-note::before {
+        content: '✨';
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        font-size: 2rem;
+        animation: sparkle 2s ease-in-out infinite alternate;
+    }
+
+    .thanks-note::after {
+        content: '🚀';
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        font-size: 2rem;
+        animation: bounce 2s ease-in-out infinite;
+    }
+
+    @keyframes sparkle {
+        from { opacity: 0.5; transform: scale(0.8); }
+        to { opacity: 1; transform: scale(1.2); }
+    }
+
+    @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+        40% { transform: translateY(-10px); }
+        60% { transform: translateY(-5px); }
+    }
+
+    .thanks-note p {
+        font-size: 1.1rem;
+        color: #333;
+        font-weight: 500;
+    }
+
+    .floating-elements {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: -1;
+    }
+
+    .floating-element {
+        position: absolute;
+        opacity: 0.1;
+        animation: float 15s ease-in-out infinite;
+        font-size: 2rem;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0px) rotate(0deg); }
+        50% { transform: translateY(-20px) rotate(180deg); }
+    }
+
+    .floating-element:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+    .floating-element:nth-child(2) { top: 20%; right: 10%; animation-delay: 2s; }
+    .floating-element:nth-child(3) { bottom: 10%; left: 20%; animation-delay: 4s; }
+    .floating-element:nth-child(4) { bottom: 20%; right: 20%; animation-delay: 6s; }
+
+    /* Add body styling if not in base.html */
+    body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 20px;
+    }
+
+    @media (max-width: 768px) {
+        .about-section {
+            padding: 20px;
+            margin: 10px;
+        }
+        
+        .section-title {
+            font-size: 2rem;
+        }
+        
+        .cards-container {
+            grid-template-columns: 1fr;
+        }
+        
+        .tech-stack {
+            justify-content: center;
+        }
+    }
+</style>
+
+<div class="floating-elements">
+    <div class="floating-element">💻</div>
+    <div class="floating-element">🎓</div>
+    <div class="floating-element">🚀</div>
+    <div class="floating-element">⚡</div>
+</div>
+
+<section class="about-section">
+    <h2 class="section-title">👨‍💻 About Me</h2>
+
+    <div class="hero-intro">
+        <h3>Hello, I'm <span class="highlight">Chinmay</span>!</h3>
+        <p>Computer Science Student & Aspiring Software Engineer</p>
+    </div>
+
+    <p class="about-intro">
+        I'm passionate about building innovative web applications and solving complex problems through code.
+        Currently diving into modern web technologies and strengthening my foundation in computer science.
+    </p>
+
+    <div class="tech-stack">
+        <span class="tech">Flask</span>
+        <span class="tech">Python</span>
+        <span class="tech">HTML</span>
+        <span class="tech">CSS</span>
+        <span class="tech">JavaScript</span>
+        <span class="tech">C++</span>
+        <span class="tech">DSA</span>
+    </div>
+
+    <p class="about-intro">
+        I also enjoy solving problems in <span class="tech">Data Structures & Algorithms</span>, and I'm focused on improving daily with self-study and hands-on projects like this portfolio site.
+    </p>
+
+    <div class="cards-container">
+        <div class="card">
+            <h3>🎓 Education</h3>
+            <ul>
+                <li><strong>B.Tech in Computer Science</strong> – GIET University, Gunupur</li>
+                <li><strong>Expected Graduation:</strong> 2027</li>
+                <li><strong>Focus:</strong> Software Engineering & Web Development</li>
+                <li><strong>Learning:</strong> Modern programming paradigms and industry practices</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>📌 Current Focus</h3>
+            <ul>
+                <li>📘 <strong>Backend Development:</strong> Learning Flask for robust web applications</li>
+                <li>🧠 <strong>Problem Solving:</strong> Practicing DSA in C++ and mastering algorithms</li>
+                <li>🌐 <strong>Frontend Skills:</strong> Advancing in JavaScript and modern CSS</li>
+                <li>🛠️ <strong>Project Building:</strong> Creating this portfolio as my first full-stack project</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="progress-section">
+        <h3>🎯 Learning Journey</h3>
+        <div class="skills-grid">
+            <div class="skill-item">
+                <div class="skill-level">🐍</div>
+                <div><strong>Python</strong><br>Intermediate</div>
+            </div>
+            <div class="skill-item">
+                <div class="skill-level">🌐</div>
+                <div><strong>Web Dev</strong><br>Learning</div>
+            </div>
+            <div class="skill-item">
+                <div class="skill-level">🧠</div>
+                <div><strong>DSA</strong><br>Practicing</div>
+            </div>
+            <div class="skill-item">
+                <div class="skill-level">🔥</div>
+                <div><strong>Flask</strong><br>Exploring</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="thanks-note">
+        <p>✨ Thanks for visiting my portfolio! I'm excited to continue learning and growing in this amazing journey of software development. Let's build something incredible together! 🚀</p>
+    </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Animate tech stack items on load
+        const techItems = document.querySelectorAll('.tech');
+        techItems.forEach((item, index) => {
+            setTimeout(() => {
+                item.style.animation = `fadeInUp 0.5s ease-out ${index * 0.1}s both`;
+            }, 100);
+        });
+
+        // Add click effects to tech items
+        techItems.forEach(item => {
+            item.addEventListener('click', function() {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = 'translateY(-3px)';
+                }, 100);
+            });
+        });
+
+        // Add hover effects to cards
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Add typing effect to the title
+        const title = document.querySelector('.section-title');
+        const text = title.textContent;
+        title.textContent = '';
+        let i = 0;
+        
+        function typeWriter() {
+            if (i < text.length) {
+                title.textContent += text.charAt(i);
+                i++;
+                setTimeout(typeWriter, 100);
+            }
+        }
+        
+        setTimeout(typeWriter, 500);
+    });
+</script>
+{% endblock %}
